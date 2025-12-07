@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Entrar - Desculpe, Estou Fashion</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .back-to-home {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: white;
+      color: #ff69b4;
+      padding: 12px 24px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      transition: all 0.3s;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .back-to-home:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+
+    .auth-container {
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      overflow: hidden;
+      max-width: 1000px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 600px;
+    }
+
+    .auth-side {
+      background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
+      color: white;
+      padding: 60px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .auth-side::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      animation: pulse 15s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    .auth-side-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 40px;
+      font-size: 28px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .auth-side h2 {
+      font-size: 36px;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+
+    .auth-side p {
+      font-size: 18px;
+      opacity: 0.9;
+      line-height: 1.6;
+    }
+
+    .auth-form-container {
+      padding: 60px 50px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .auth-form-header {
+      margin-bottom: 40px;
+    }
+
+    .auth-form-header h3 {
+      font-size: 32px;
+      color: #1a1a1a;
+      margin-bottom: 8px;
+    }
+
+    .auth-form-header p {
+      color: #666;
+      font-size: 16px;
+    }
+
+    .form-tabs {
+      display: flex;
+      gap: 30px;
+      margin-bottom: 40px;
+      border-bottom: 2px solid #e0e0e0;
+    }
+
+    .form-tab {
+      background: none;
+      border: none;
+      padding: 12px 0;
+      font-size: 18px;
+      font-weight: 600;
+      color: #999;
+      cursor: pointer;
+      position: relative;
+      transition: color 0.3s;
+    }
+
+    .form-tab.active {
+      color: #ff69b4;
+    }
+
+    .form-tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: #ff69b4;
+    }
+
+    .form-content {
+      display: none;
+    }
+
+    .form-content.active {
+      display: block;
+      animation: fadeIn 0.3s;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #333;
+      font-size: 14px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      font-size: 15px;
+      transition: all 0.3s;
+      background: #f8f9fa;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #ff69b4;
+      background: white;
+      box-shadow: 0 0 0 4px rgba(255, 105, 180, 0.1);
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-top: 10px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .form-footer {
+      margin-top: 24px;
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+    }
+
+    .form-footer a {
+      color: #ff69b4;
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .form-footer a:hover {
+      text-decoration: underline;
+    }
+
+    .alert {
+      padding: 14px 16px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      display: none;
+    }
+
+    .alert.show {
+      display: block;
+      animation: slideDown 0.3s;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .alert-error {
+      background: #fee;
+      color: #c33;
+      border: 1px solid #fcc;
+    }
+
+    .alert-success {
+      background: #efe;
+      color: #3c3;
+      border: 1px solid #cfc;
+    }
+
+    .alert-info {
+      background: #e7f3ff;
+      color: #0066cc;
+      border: 1px solid #b3d9ff;
+    }
+
+    /* Modal Recuperação de Senha */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 500px;
+      width: 90%;
+      animation: modalSlide 0.3s;
+    }
+
+    @keyframes modalSlide {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .modal-header h3 {
+      font-size: 24px;
+      color: #333;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 32px;
+      cursor: pointer;
+      color: #999;
+      transition: color 0.2s;
+    }
+
+    .modal-close:hover {
+      color: #ff69b4;
+    }
+
+    @media (max-width: 768px) {
+      .auth-container {
+        grid-template-columns: 1fr;
+        max-width: 450px;
+      }
+
+      .auth-side {
+        display: none;
+      }
+
+      .auth-form-container {
+        padding: 40px 30px;
+      }
+
+      .back-to-home {
+        position: static;
+        margin-bottom: 20px;
+        display: inline-flex;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-container">
+    <div class="auth-side">
+      <div class="auth-side-content">
+        <div class="logo" onclick="window.location.href='/'">
+          <span style="font-size: 40px;">🌸</span>
+          <div>
+            <div style="font-size: 20px;">Desculpe,</div>
+            <div style="font-size: 24px;">Estou Fashion</div>
+          </div>
+        </div>
+        <h2>Bem-vindo de volta!</h2>
+        <p>Entre na sua conta para acessar ofertas exclusivas, acompanhar seus pedidos e muito mais.</p>
+      </div>
+    </div>
+
+    <div class="auth-form-container">
+      <div class="auth-form-header">
+        <h3>Entrar</h3>
+        <p>Faça login ou crie sua conta</p>
+      </div>
+
+      <div class="alert alert-error" id="alertError"></div>
+      <div class="alert alert-success" id="alertSuccess"></div>
+
+      <div class="form-tabs">
+        <button class="form-tab active" data-tab="login">Login</button>
+        <button class="form-tab" data-tab="registro">Criar Conta</button>
+      </div>
+
+      <div class="form-content active" id="loginForm">
+        <form id="formLogin">
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" name="email" required placeholder="seu@email.com">
+          </div>
+          <div class="form-group">
+            <label>Senha</label>
+            <input type="password" name="senha" required placeholder="••••••••">
+          </div>
+          <button type="submit" class="btn-primary">Entrar</button>
+        </form>
+        <div class="form-footer">
+          <a id="forgotPasswordLink">Esqueceu sua senha?</a>
+        </div>
+      </div>
+
+      <div class="form-content" id="registroForm">
+        <form id="formRegistro">
+          <div class="form-group">
+            <label>Nome Completo</label>
+            <input type="text" name="nome" required placeholder="João Silva">
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" name="email" required placeholder="seu@email.com">
+          </div>
+          <div class="form-group">
+            <label>Telefone</label>
+            <input type="tel" name="telefone" placeholder="(11) 99999-9999">
+          </div>
+          <div class="form-group">
+            <label>Senha</label>
+            <input type="password" name="senha" required placeholder="••••••••" minlength="6">
+          </div>
+          <button type="submit" class="btn-primary">Criar Conta</button>
+        </form>
+        <div class="form-footer">
+          Ao criar uma conta, você concorda com nossos <a href="#">Termos de Uso</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Recuperação de Senha -->
+  <div class="modal" id="modalRecuperacao">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Recuperar Senha</h3>
+        <button class="modal-close" id="closeModal">&times;</button>
+      </div>
+      
+      <div class="alert alert-info" style="display: block; margin-bottom: 20px;">
+        Digite seu email abaixo e enviaremos instruções para recuperar sua senha.
+      </div>
+
+      <div class="alert alert-success" id="alertRecuperacaoSuccess"></div>
+      <div class="alert alert-error" id="alertRecuperacaoError"></div>
+
+      <form id="formRecuperacao">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" name="email" required placeholder="seu@email.com">
+        </div>
+        <button type="submit" class="btn-primary">Enviar Instruções</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = 'http://localhost:3000/api';
+
+    // Tabs
+    document.querySelectorAll('.form-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const tabName = tab.dataset.tab;
+        
+        document.querySelectorAll('.form-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.form-content').forEach(c => c.classList.remove('active'));
+        
+        tab.classList.add('active');
+        document.getElementById(tabName + 'Form').classList.add('active');
+        
+        hideAlerts();
+      });
+    });
+
+    // Login
+    document.getElementById('formLogin').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const dados = Object.fromEntries(formData);
+      
+      const btn = e.target.querySelector('button');
+      btn.disabled = true;
+      btn.textContent = 'Entrando...';
+
+      try {
+        const response = await fetch(`${API_URL}/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(dados)
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Erro ao fazer login');
+        }
+
+        // Salvar token
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('usuario', JSON.stringify(data.usuario));
+
+        showSuccess('Login realizado com sucesso!');
+        
+        setTimeout(() => {
+          // Redirecionar baseado no tipo de usuário
+          if (data.usuario.tipo === 'admin') {
+            window.location.href = '/admin.html';
+          } else {
+            window.location.href = '/';
+          }
+        }, 1000);
+
+      } catch (error) {
+        showError(error.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Entrar';
+      }
+    });
+
+    // Registro
+    document.getElementById('formRegistro').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const dados = Object.fromEntries(formData);
+      
+      const btn = e.target.querySelector('button');
+      btn.disabled = true;
+      btn.textContent = 'Criando conta...';
+
+      try {
+        const response = await fetch(`${API_URL}/auth/registro`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(dados)
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Erro ao criar conta');
+        }
+
+        // Salvar token
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('usuario', JSON.stringify(data.usuario));
+
+        showSuccess('Conta criada com sucesso!');
+        
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 1000);
+
+      } catch (error) {
+        showError(error.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Criar Conta';
+      }
+    });
+
+    // Esqueceu a senha - Abrir modal
+    document.getElementById('forgotPasswordLink').addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById('modalRecuperacao').classList.add('active');
+      document.getElementById('formRecuperacao').reset();
+      document.getElementById('alertRecuperacaoSuccess').classList.remove('show');
+      document.getElementById('alertRecuperacaoError').classList.remove('show');
+    });
+
+    // Fechar modal
+    document.getElementById('closeModal').addEventListener('click', () => {
+      document.getElementById('modalRecuperacao').classList.remove('active');
+    });
+
+    // Fechar modal clicando fora
+    document.getElementById('modalRecuperacao').addEventListener('click', (e) => {
+      if (e.target.id === 'modalRecuperacao') {
+        document.getElementById('modalRecuperacao').classList.remove('active');
+      }
+    });
+
+    // Recuperação de senha
+    document.getElementById('formRecuperacao').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const email = formData.get('email');
+      
+      const btn = e.target.querySelector('button');
+      btn.disabled = true;
+      btn.textContent = 'Enviando...';
+
+      try {
+        // Criar email de recuperação
+        const emailBody = `
+Solicitação de Recuperação de Senha
+
+Email: ${email}
+Data: ${new Date().toLocaleString('pt-BR')}
+
+Um usuário solicitou a recuperação de senha para esta conta.
+        `.trim();
+
+        // Usar mailto para enviar (abre cliente de email)
+        const mailtoLink = `mailto:suporte@desculpeestoufashion.com?subject=Recuperação de Senha - ${email}&body=${encodeURIComponent(emailBody)}`;
+        window.location.href = mailtoLink;
+
+        // Mostrar mensagem de sucesso
+        setTimeout(() => {
+          const successAlert = document.getElementById('alertRecuperacaoSuccess');
+          successAlert.textContent = '✅ Instruções enviadas! Verifique seu email.';
+          successAlert.classList.add('show');
+
+          setTimeout(() => {
+            document.getElementById('modalRecuperacao').classList.remove('active');
+          }, 3000);
+        }, 500);
+
+      } catch (error) {
+        const errorAlert = document.getElementById('alertRecuperacaoError');
+        errorAlert.textContent = 'Erro ao enviar instruções. Tente novamente.';
+        errorAlert.classList.add('show');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Enviar Instruções';
+      }
+    });
+
+    function showError(message) {
+      const alert = document.getElementById('alertError');
+      alert.textContent = message;
+      alert.classList.add('show');
+      setTimeout(() => alert.classList.remove('show'), 5000);
+    }
+
+    function showSuccess(message) {
+      const alert = document.getElementById('alertSuccess');
+      alert.textContent = message;
+      alert.classList.add('show');
+      setTimeout(() => alert.classList.remove('show'), 5000);
+    }
+
+    function hideAlerts() {
+      document.querySelectorAll('.alert').forEach(a => a.classList.remove('show'));
+    }
+
+    // Verificar se já está logado
+    if (localStorage.getItem('token')) {
+      const usuario = JSON.parse(localStorage.getItem('usuario'));
+      if (usuario.tipo === 'admin') {
+        window.location.href = '/admin.html';
+      } else {
+        window.location.href = '/';
+      }
+    }
+  </script>
+</body>
+</html>

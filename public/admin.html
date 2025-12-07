@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel Administrativo - Desculpe, Estou Fashion</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div class="loading-screen" id="loadingScreen">
+    <div class="loading-content">
+      <div class="logo-loading">
+        <span style="font-size: 64px;">🌸</span>
+        <h2>Desculpe, Estou Fashion</h2>
+      </div>
+      <div class="loading-spinner"></div>
+      <p>Carregando painel administrativo...</p>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="admin-header">
+    <span style="font-size: 32px;">🌸</span>
+    <h1>Painel Administrativo</h1>
+    <div class="admin-actions">
+      <span class="admin-user" id="adminUser">Admin</span>
+      <button class="admin-btn" onclick="window.location.href='/'">🏪 Ver Loja</button>
+      <button class="admin-btn" onclick="logout()">Sair</button>
+    </div>
+  </header>
+
+  <div class="admin-container">
+    <aside class="admin-sidebar">
+      <nav>
+        <a href="#" class="active" data-section="dashboard">📊 Dashboard</a>
+        <a href="#" data-section="produtos">📦 Produtos</a>
+        <a href="#" data-section="categorias">🏷️ Categorias</a>
+        <a href="#" data-section="estoque">📈 Estoque</a>
+        <a href="#" data-section="pedidos">🛒 Pedidos</a>
+        <a href="#" data-section="cupons">🎟️ Cupons</a>
+      </nav>
+    </aside>
+
+    <main class="admin-content">
+      <!-- Dashboard -->
+      <section id="dashboard" class="section active">
+        <h2>Dashboard</h2>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">📦</div>
+            <h3>Total de Produtos</h3>
+            <div class="value" id="totalProdutos">
+              <div class="skeleton-stat"></div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🛒</div>
+            <h3>Pedidos Pendentes</h3>
+            <div class="value" id="pedidosPendentes">
+              <div class="skeleton-stat"></div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">💰</div>
+            <h3>Total Vendido (Mês)</h3>
+            <div class="value" id="totalVendido">
+              <div class="skeleton-stat"></div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">📈</div>
+            <h3>Vendas do Dia</h3>
+            <div class="value" id="vendasDia">
+              <div class="skeleton-stat"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="recent-orders">
+          <h3>Pedidos Recentes</h3>
+          <div id="recentOrdersList">
+            <div class="skeleton-table"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Produtos -->
+      <section id="produtos" class="section">
+        <div class="section-header">
+          <h2>Gerenciar Produtos</h2>
+          <button class="btn-primary" onclick="abrirModalProduto()">+ Novo Produto</button>
+        </div>
+
+        <div class="search-bar">
+          <input type="text" placeholder="Buscar produtos..." id="searchProdutos">
+        </div>
+
+        <div class="data-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Imagem</th>
+                <th>Nome</th>
+                <th>Categoria</th>
+                <th>Preço</th>
+                <th>Status</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="produtosTable">
+              <tr>
+                <td colspan="6">
+                  <div class="skeleton-table"></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Categorias -->
+      <section id="categorias" class="section">
+        <div class="section-header">
+          <h2>Gerenciar Categorias</h2>
+          <button class="btn-primary" onclick="abrirModalCategoria()">+ Nova Categoria</button>
+        </div>
+
+        <div class="data-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Slug</th>
+                <th>Descrição</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="categoriasTable">
+              <tr>
+                <td colspan="4">
+                  <div class="skeleton-table"></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Estoque -->
+      <section id="estoque" class="section">
+        <div class="section-header">
+          <h2>Controle de Estoque</h2>
+        </div>
+
+        <div class="data-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Produto</th>
+                <th>Tamanho</th>
+                <th>Quantidade</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="estoqueTable">
+              <tr>
+                <td colspan="4">
+                  <div class="skeleton-table"></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Pedidos -->
+      <section id="pedidos" class="section">
+        <div class="section-header">
+          <h2>Gerenciar Pedidos</h2>
+        </div>
+
+        <div class="data-table">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Cliente</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Data</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="pedidosTable">
+              <tr>
+                <td colspan="6">
+                  <div class="skeleton-table"></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Cupons -->
+      <section id="cupons" class="section">
+        <div class="section-header">
+          <h2>Gerenciar Cupons</h2>
+          <button class="btn-primary" onclick="abrirModalCupom()">+ Novo Cupom</button>
+        </div>
+
+        <div class="data-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Código</th>
+                <th>Tipo</th>
+                <th>Valor</th>
+                <th>Validade</th>
+                <th>Status</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="cuponsTable">
+              <tr>
+                <td colspan="6">
+                  <div class="skeleton-table"></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal Produto -->
+  <div class="modal" id="modalProduto">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 id="modalProdutoTitle">Novo Produto</h3>
+        <button class="modal-close" onclick="fecharModalProduto()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="formProduto">
+          <div class="form-group">
+            <label>Nome do Produto *</label>
+            <input type="text" name="nome" required>
+          </div>
+
+          <div class="form-group">
+            <label>Descrição</label>
+            <textarea name="descricao" rows="3"></textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Preço *</label>
+              <input type="number" name="preco" step="0.01" required>
+            </div>
+            <div class="form-group">
+              <label>Preço Antigo</label>
+              <input type="number" name="preco_antigo" step="0.01">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Categoria *</label>
+              <select name="categoria_id" id="selectCategoria" required>
+                <option value="">Selecione...</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Gênero *</label>
+              <select name="genero" required>
+                <option value="">Selecione...</option>
+                <option value="masculino">Masculino</option>
+                <option value="feminino">Feminino</option>
+                <option value="unissex">Unissex</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Cor</label>
+            <input type="text" name="cor">
+          </div>
+
+          <div class="form-group">
+            <label>Imagem Principal *</label>
+            <input type="file" id="uploadImage" accept="image/*" style="margin-bottom: 10px;">
+            <input type="text" name="imagem_principal" id="imagemPrincipalUrl" required placeholder="URL será gerada após upload" readonly>
+            <button type="button" class="btn-secondary" onclick="uploadImagem()" style="margin-top: 5px;">📤 Fazer Upload</button>
+          </div>
+
+          <div class="form-checks">
+            <label class="form-check">
+              <input type="checkbox" name="destaque">
+              Produto em Destaque
+            </label>
+            <label class="form-check">
+              <input type="checkbox" name="tendencia">
+              Produto Tendência
+            </label>
+            <label class="form-check">
+              <input type="checkbox" name="novo">
+              Produto Novo
+            </label>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="fecharModalProduto()">Cancelar</button>
+        <button class="btn-primary" onclick="salvarProduto()">Salvar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Estoque do Produto -->
+  <div class="modal" id="modalEstoque">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3>Gerenciar Tamanhos e Estoque</h3>
+        <button class="modal-close" onclick="fecharModalEstoque()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="estoqueFormContainer"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="fecharModalEstoque()">Cancelar</button>
+        <button class="btn-primary" onclick="salvarEstoqueProduto()">Salvar Estoque</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Cupom -->
+  <div class="modal" id="modalCupom">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 id="modalCupomTitle">Novo Cupom</h3>
+        <button class="modal-close" onclick="fecharModalCupom()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="formCupom">
+          <div class="form-group">
+            <label>Código *</label>
+            <input type="text" name="codigo" required style="text-transform: uppercase;">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Tipo *</label>
+              <select name="tipo" required>
+                <option value="percentual">Percentual</option>
+                <option value="fixo">Fixo</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Valor *</label>
+              <input type="number" name="valor" step="0.01" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Valor Mínimo</label>
+              <input type="number" name="valor_minimo" step="0.01" value="0">
+            </div>
+            <div class="form-group">
+              <label>Validade *</label>
+              <input type="date" name="validade" required>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="fecharModalCupom()">Cancelar</button>
+        <button class="btn-primary" onclick="salvarCupom()">Salvar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

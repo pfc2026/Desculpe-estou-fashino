@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Desculpe, Estou Fashion</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <button class="menu-btn" id="menuBtn">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        
+        <div class="logo" onclick="window.location.href='/'">
+          <span class="logo-icon">🌸</span>
+          <div class="logo-text">
+            <span>Desculpe,</span>
+            <span>Estou Fashion</span>
+          </div>
+        </div>
+
+        <nav class="nav" id="nav">
+          <a href="#" data-page="home">Recomendados</a>
+          <a href="#" data-page="masculino">Masculino</a>
+          <a href="#" data-page="feminino">Feminino</a>
+          <a href="#" data-page="unissex">Unissex</a>
+          <a href="#" data-page="contato">Contatos</a>
+        </nav>
+
+        <div class="header-actions">
+          <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Pesquisar...">
+            <button id="searchBtn">🔍</button>
+          </div>
+          
+          <div class="user-menu" id="userMenu">
+            <button class="user-btn" id="userBtn">👤</button>
+            <div class="user-dropdown" id="userDropdown">
+              <div class="user-info" id="userInfo"></div>
+              <a href="#" id="myOrdersBtn" style="display: none;">Meus Pedidos</a>
+              <a href="/admin.html" id="adminBtn" style="display: none;">🔧 Painel Admin</a>
+              <a href="#" id="logoutBtn" style="display: none;">Sair</a>
+            </div>
+          </div>
+
+          <button class="cart-btn" id="cartBtn">
+            🛒
+            <span class="cart-count" id="cartCount">0</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main">
+    <div class="container">
+      <!-- Filtros -->
+      <aside class="filters" id="filters">
+        <h3>Filtros</h3>
+        <div class="filter-group">
+          <h4>Categoria</h4>
+          <div id="categoryFilters">
+            <!-- Skeleton -->
+            <div class="skeleton-filters"></div>
+          </div>
+        </div>
+        <div class="filter-group">
+          <h4>Preço</h4>
+          <input type="range" id="priceRange" min="0" max="500" step="10" value="500">
+          <span id="priceValue">R$ 0 - R$ 500</span>
+        </div>
+      </aside>
+
+      <!-- Grid de Produtos -->
+      <section class="products-section">
+        <div class="products-header">
+          <h2 id="sectionTitle">Produtos em Destaque</h2>
+          <select id="sortSelect">
+            <option value="">Ordenar por</option>
+            <option value="menor-preco">Menor preço</option>
+            <option value="maior-preco">Maior preço</option>
+            <option value="novos">Mais recentes</option>
+          </select>
+        </div>
+        
+        <div class="products-grid" id="productsGrid">
+          <!-- Skeleton Loading -->
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Modal do Produto -->
+  <div class="modal" id="productModal">
+    <div class="modal-content">
+      <button class="modal-close" id="modalClose">&times;</button>
+      <div class="modal-body">
+        <div class="product-images">
+          <img id="modalMainImage" src="" alt="">
+          <div class="product-thumbnails" id="modalThumbnails"></div>
+        </div>
+        
+        <div class="product-info">
+          <span class="product-badge" id="modalBadge">Tendências</span>
+          <h2 id="modalTitle"></h2>
+          
+          <div class="product-prices">
+            <span class="price-current" id="modalPrice"></span>
+            <span class="price-old" id="modalPriceOld"></span>
+          </div>
+
+          <div class="product-detail">
+            <strong>Cor:</strong>
+            <span id="modalColor"></span>
+          </div>
+
+          <div class="product-sizes">
+            <strong>Tamanho</strong>
+            <div class="size-selector" id="modalSizes"></div>
+          </div>
+
+          <button class="add-to-cart-btn" id="addToCartBtn">ADICIONAR AO CARRINHO</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal do Carrinho -->
+  <div class="modal" id="cartModal">
+    <div class="modal-content modal-cart">
+      <button class="modal-close" id="cartModalClose">&times;</button>
+      <div class="cart-header">
+        <h2>Todos os produtos (<span id="cartTotalItems">0</span>)</h2>
+      </div>
+      
+      <div class="cart-body" id="cartItems">
+        <p class="cart-empty">Seu carrinho está vazio.</p>
+      </div>
+
+      <div class="cart-summary">
+        <div class="cupom-section">
+          <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+            <input type="text" id="cupomInput" placeholder="Código do cupom" style="flex: 1; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px;">
+            <button id="removerCupomBtn" style="display: none; padding: 12px; background: #dc3545; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">✕</button>
+          </div>
+          <button id="aplicarCupomBtn" style="width: 100%; padding: 12px; background: #6c757d; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; margin-bottom: 15px;">Aplicar Cupom</button>
+          <div id="cupomStatus" style="display: none; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 14px;"></div>
+        </div>
+        
+        <div class="cart-totals">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+            <span>Subtotal:</span>
+            <span id="cartSubtotal">R$ 0,00</span>
+          </div>
+          <div id="descontoDisplay" style="display: none; color: #28a745; margin-bottom: 10px; display: flex; justify-content: space-between;">
+            <span>Desconto (<span id="cupomCodigo"></span>):</span>
+            <span id="descontoValor">- R$ 0,00</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 20px; font-weight: 700; padding-top: 15px; border-top: 2px solid #e0e0e0;">
+            <span>Total:</span>
+            <span id="cartTotal">R$ 0,00</span>
+          </div>
+        </div>
+        
+        <button class="checkout-btn" id="checkoutBtn" style="margin-top: 20px;">COMPRE AGORA</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
